@@ -21,6 +21,8 @@ class TodoListPage extends StatelessWidget {
                   labelText: 'Digite uma tarefa',
                   border: OutlineInputBorder(),
                 ),
+                onChanged: (value) => onChanged(value),
+                onSubmitted: (value) => login(_taskController),
               ),
               ElevatedButton(
                 onPressed: () => login(_taskController),
@@ -34,8 +36,18 @@ class TodoListPage extends StatelessWidget {
   }
 }
 
-void login(dynamic _taskController) {
-  String text = _taskController.text;
+void login(dynamic taskController) {
+  String text = taskController.text;
   print(text);
-  _taskController.clear();
+  taskController.clear();
+}
+
+void onChanged(String value) {
+  // somente leitura do valor digitado no TextField, sem alterar o estado do widget
+  print('Texto digitado: $value');
+}
+
+void onSubmitted(String value) {
+  // somente leitura do valor digitado no TextField, sem alterar o estado do widget
+  print('Texto enviado: $value');
 }
