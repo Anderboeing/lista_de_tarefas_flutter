@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 
-class TodoListPage extends StatelessWidget {
+class TodoListPage extends StatefulWidget {
   TodoListPage({super.key});
+
+  @override
+  State<TodoListPage> createState() => _TodoListPageState();
+}
+
+class _TodoListPageState extends State<TodoListPage> {
+  final TextEditingController taskController = TextEditingController();
+
+  List<String> tasks = [];
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +25,7 @@ class TodoListPage extends StatelessWidget {
                 children: [
                   Expanded(
                     child: TextField(
+                      controller: taskController,
                       decoration: InputDecoration(
                         labelText: 'Adicione uma tarefa',
                         border: OutlineInputBorder(),
@@ -24,7 +34,13 @@ class TodoListPage extends StatelessWidget {
                   ),
                   SizedBox(width: 8),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      String text = taskController.text;
+                      setState(() {
+                        tasks.add(text);
+                        taskController.clear();
+                      });
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFF0000FF),
                       padding: EdgeInsets.all(20),
@@ -37,20 +53,13 @@ class TodoListPage extends StatelessWidget {
               ListView(
                 shrinkWrap: true,
                 children: [
-                  ListTile(
-                    title: Text('Tarefa 1'),
-                    subtitle: Text('Descrição da tarefa 1'),
-                    onTap: () {
-                      print('Tarefa 1 clicada');
-                    },
-                  ),
-                  ListTile(
-                    title: Text('Tarefa 2'),
-                    subtitle: Text('Descrição da tarefa 2'),
-                    onTap: () {
-                      print('Tarefa 2 clicada');
-                    },
-                  ),
+                  for (var task in tasks)
+                    ListTile(
+                      title: Text(task),
+                      onTap: () {
+                        print('$task clicada');
+                      },
+                    ),
                 ],
               ),
               SizedBox(height: 16),
