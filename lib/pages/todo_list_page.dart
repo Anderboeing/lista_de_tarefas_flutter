@@ -34,10 +34,25 @@ class TodoListPage extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 16),
-              ListView(shrinkWrap: true, children: [
-                
-                  ],
-                ),
+              ListView(
+                shrinkWrap: true,
+                children: [
+                  ListTile(
+                    title: Text('Tarefa 1'),
+                    subtitle: Text('Descrição da tarefa 1'),
+                    onTap: () {
+                      print('Tarefa 1 clicada');
+                    },
+                  ),
+                  ListTile(
+                    title: Text('Tarefa 2'),
+                    subtitle: Text('Descrição da tarefa 2'),
+                    onTap: () {
+                      print('Tarefa 2 clicada');
+                    },
+                  ),
+                ],
+              ),
               SizedBox(height: 16),
               Row(
                 children: [
