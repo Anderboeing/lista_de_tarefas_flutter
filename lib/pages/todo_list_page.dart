@@ -50,17 +50,19 @@ class _TodoListPageState extends State<TodoListPage> {
                 ],
               ),
               SizedBox(height: 16),
-              ListView(
-                shrinkWrap: true,
-                children: [
-                  for (var task in tasks)
-                    ListTile(
-                      title: Text(task),
-                      onTap: () {
-                        print('$task clicada');
-                      },
-                    ),
-                ],
+              Flexible(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    for (var task in tasks)
+                      ListTile(
+                        title: Text(task),
+                        onTap: () {
+                          print('$task clicada');
+                        },
+                      ),
+                  ],
+                ),
               ),
               SizedBox(height: 16),
               Row(
