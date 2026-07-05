@@ -13,6 +13,8 @@ class _TodoListPageState extends State<TodoListPage> {
   final TextEditingController taskController = TextEditingController();
 
   List<Task> tasks = [];
+  Task? deletedTasks;
+  int? deletedTaskPos;
 
   @override
   Widget build(BuildContext context) {
@@ -101,8 +103,33 @@ class _TodoListPageState extends State<TodoListPage> {
   }
 
   void onDelete(Task task) {
+    deletedTasks = task;
+    deletedTaskPos = tasks.indexOf(task);
+
     setState(() {
       tasks.remove(task);
     });
+
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Tarefa "${task.title}" foi removida com sucesso!',
+          style: TextStyle(color: Color(0xff060708)),
+        ),
+        backgroundColor: Colors.white,
+        duration: Duration(seconds: 5),
+        persist: false,
+        action: SnackBarAction(
+          label: 'Desfazer',
+          textColor: Color(0xFF00d7f3),
+          onPressed: () {
+            setState(() {
+              tasks.insert(deletedTaskPos!, deletedTasks!);
+            });
+          },
+        ),
+      ),
+    );
   }
 }
