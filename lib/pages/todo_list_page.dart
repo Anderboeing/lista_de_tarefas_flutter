@@ -61,7 +61,8 @@ class _TodoListPageState extends State<TodoListPage> {
                   child: ListView(
                     shrinkWrap: true,
                     children: [
-                      for (Task task in tasks) TodoListItem(task: task),
+                      for (Task task in tasks)
+                        TodoListItem(task: task, onDelete: onDelete),
                     ],
                   ),
                 ),
@@ -97,5 +98,11 @@ class _TodoListPageState extends State<TodoListPage> {
         ),
       ),
     );
+  }
+
+  void onDelete(Task task) {
+    setState(() {
+      tasks.remove(task);
+    });
   }
 }

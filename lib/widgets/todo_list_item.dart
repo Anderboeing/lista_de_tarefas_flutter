@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lista_de_tarefas/models/task.dart';
 
-class TodoListItem extends StatelessWidget {
-  const TodoListItem({super.key, required this.task});
+class TodoListItem extends StatefulWidget {
+  const TodoListItem({super.key, required this.task, required this.onDelete});
 
   final Task task;
+  final Function(Task) onDelete;
 
+  @override
+  State<TodoListItem> createState() => _TodoListItemState();
+}
+
+class _TodoListItemState extends State<TodoListItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,19 +29,31 @@ class TodoListItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  DateFormat('dd/MM/yyyy  - HH:mm').format(task.dateTime),
+                  DateFormat(
+                    'dd/MM/yyyy  - HH:mm',
+                  ).format(widget.task.dateTime),
                   style: TextStyle(fontSize: 12, color: Colors.grey),
                 ),
                 Text(
-                  task.title,
+                  widget.task.title,
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
           ),
           ElevatedButton(
-            onPressed: null,
-            child: Icon(Icons.delete, color: Colors.white),
+            onPressed: () {
+              widget.onDelete(widget.task);
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+              padding: EdgeInsets.all(12),
+              shape: CircleBorder(),
+            ),
+            child: CircleAvatar(
+              backgroundColor: Colors.red,
+              child: Icon(Icons.delete, color: Colors.white),
+            ),
           ),
         ],
       ),
