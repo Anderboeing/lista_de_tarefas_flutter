@@ -19,6 +19,16 @@ class _TodoListPageState extends State<TodoListPage> {
   int? deletedTaskPos;
 
   @override
+  void initState() {
+    super.initState();
+    taskRepository.getTaskList().then((taskList) {
+      setState(() {
+        tasks = taskList;
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
@@ -112,6 +122,7 @@ class _TodoListPageState extends State<TodoListPage> {
     setState(() {
       tasks.remove(task);
     });
+    taskRepository.saveTaskList(tasks);
 
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
@@ -130,6 +141,7 @@ class _TodoListPageState extends State<TodoListPage> {
             setState(() {
               tasks.insert(deletedTaskPos!, deletedTasks!);
             });
+            taskRepository.saveTaskList(tasks);
           },
         ),
       ),
@@ -155,6 +167,7 @@ class _TodoListPageState extends State<TodoListPage> {
                 setState(() {
                   tasks.clear();
                 });
+                taskRepository.saveTaskList(tasks);
                 Navigator.of(context).pop();
               },
               style: TextButton.styleFrom(
