@@ -16,16 +16,26 @@ class TodoListItem extends StatelessWidget {
       ),
       margin: EdgeInsets.symmetric(vertical: 4),
       padding: EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          Text(
-            DateFormat('dd/MM/yyyy  - HH:mm').format(task.dateTime),
-            style: TextStyle(fontSize: 12, color: Colors.grey),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  DateFormat('dd/MM/yyyy  - HH:mm').format(task.dateTime),
+                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                ),
+                Text(
+                  task.title,
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
           ),
-          Text(
-            task.title,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ElevatedButton(
+            onPressed: null,
+            child: Icon(Icons.delete, color: Colors.white),
           ),
         ],
       ),
