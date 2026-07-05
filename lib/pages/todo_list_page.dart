@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lista_de_tarefas/models/task.dart';
+import 'package:lista_de_tarefas/repositories/task_repository.dart';
 import 'package:lista_de_tarefas/widgets/todo_list_item.dart';
 
 class TodoListPage extends StatefulWidget {
@@ -11,6 +12,7 @@ class TodoListPage extends StatefulWidget {
 
 class _TodoListPageState extends State<TodoListPage> {
   final TextEditingController taskController = TextEditingController();
+  final TaskRepository taskRepository = TaskRepository();
 
   List<Task> tasks = [];
   Task? deletedTasks;
@@ -48,6 +50,7 @@ class _TodoListPageState extends State<TodoListPage> {
                           );
                           tasks.add(newTask);
                           taskController.clear();
+                          taskRepository.saveTaskList(tasks);
                         });
                       },
                       style: ElevatedButton.styleFrom(
