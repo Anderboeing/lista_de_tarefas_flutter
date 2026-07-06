@@ -18,6 +18,8 @@ class _TodoListPageState extends State<TodoListPage> {
   Task? deletedTasks;
   int? deletedTaskPos;
 
+  String? errorText = '';
+
   @override
   void initState() {
     super.initState();
@@ -45,7 +47,20 @@ class _TodoListPageState extends State<TodoListPage> {
                         controller: taskController,
                         decoration: InputDecoration(
                           labelText: 'Adicione uma tarefa',
-                          border: OutlineInputBorder(),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0xFF0000FF),
+                              width: 2,
+                            ),
+                          ),
+                          errorText: errorText,
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0xFF0000FF),
+                              width: 2,
+                            ),
+                          ),
+                          labelStyle: TextStyle(color: Color(0xFF0000FF)),
                         ),
                       ),
                     ),
@@ -53,15 +68,23 @@ class _TodoListPageState extends State<TodoListPage> {
                     ElevatedButton(
                       onPressed: () {
                         String text = taskController.text;
+                        if (text.isEmpty) {
+                          setState(() {
+                            errorText =
+                                'O título da tarefa não pode ser vazio!';
+                          });
+                          return;
+                        }
                         setState(() {
                           Task newTask = Task(
                             title: text,
                             dateTime: DateTime.now(),
                           );
                           tasks.add(newTask);
-                          taskController.clear();
-                          taskRepository.saveTaskList(tasks);
+                          errorText = null;
                         });
+                        taskController.clear();
+                        taskRepository.saveTaskList(tasks);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFF0000FF),
